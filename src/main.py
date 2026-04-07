@@ -51,7 +51,12 @@ def usage_summary():
     FROM sensor_data
     GROUP BY machine_id               
 """)
-    return cursor.fetchall()
+    rows = cursor.fetchall
+
+    return [
+        {"machine_id": row[0], "usage_count": row[1]}
+        for row in rows
+    ]
 
 @app.get("/peak-hours")
 def peak_hours():
