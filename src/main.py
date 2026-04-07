@@ -52,3 +52,13 @@ def usage_summary():
     GROUP BY machine_id               
 """)
     return cursor.fetchall()
+
+@app.get("/peak-hours")
+def peak_hours():
+    cursor.execute("""
+    SELECT strftime('%H', timestamp) as hour, COUNT(*)
+    FROM sensor_data
+    GROUP BY hour
+    ORDER BY COUNT(*) DESC
+    """)
+    return cursor.fetchall()
