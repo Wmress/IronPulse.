@@ -41,3 +41,14 @@ def recieve_sensor_data(data: SensorData):
 def get_all_data():
     cursor.execute("SELECT * FROM sensor_data")
     return cursor.fetchall()
+
+
+#API Endpoint call to usage Summary which displays the data in a more readable manner
+@app.get("/usage-summary")
+def usage_summary():
+    cursor.execute("""
+    SELECT machine_id, COUNT(*) as usage_count
+    FROM sensor_data
+    GROUP BY machine_id               
+""")
+    return cursor.fetchall()
