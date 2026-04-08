@@ -49,9 +49,10 @@ def usage_summary():
     cursor.execute("""
     SELECT machine_id, COUNT(*) as usage_count
     FROM sensor_data
+    WHERE event_type = 'start'
     GROUP BY machine_id               
 """)
-    rows = cursor.fetchall
+    rows = cursor.fetchall()
 
     return [
         {"machine_id": row[0], "usage_count": row[1]}
