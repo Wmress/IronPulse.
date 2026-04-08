@@ -64,7 +64,13 @@ def peak_hours():
     cursor.execute("""
     SELECT strftime('%H', timestamp) as hour, COUNT(*)
     FROM sensor_data
+    WHERE event_type = 'start'
     GROUP BY hour
     ORDER BY COUNT(*) DESC
     """)
-    return cursor.fetchall()
+    rows = cursor.fetchall()
+
+    return [
+        {"hour": row[0], "usage_count": row[1]}
+        for row in rows
+    ]
